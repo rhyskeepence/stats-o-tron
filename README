@@ -1,0 +1,3 @@
+Run `sbt assembly` to compile, test and build an executable JAR.
+
+Then run `scala [jar file name] [noggin xml config dir]` to run.
