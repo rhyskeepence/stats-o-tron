@@ -7,7 +7,7 @@ import sky.sns.statsotron.datacollector.jmx.RetrieverLifecycle
 import java.util.concurrent.TimeUnit
 import sky.sns.statsotron.output.DataPointOutput
 
-class StatsOTron(xmlConfigDir: String, retrieverLifecycle: RetrieverLifecycle, dataPointOutput: DataPointOutput, delay: Long,  timeunit: TimeUnit) {
+class StatsOTron(xmlConfigDir: String, retrieverLifecycle: RetrieverLifecycle, dataPointOutput: DataPointOutput, delay: Long, timeunit: TimeUnit) {
 
   val collectionScheduler = actorOf(new CollectionScheduler(retrieverLifecycle, dataPointOutput, delay, timeunit))
 
