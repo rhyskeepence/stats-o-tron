@@ -1,11 +1,11 @@
-package sky.sns.statsotron.datacollector
+package statsotron.datacollector
 
 import java.io.File
 import akka.actor.Actor._
 import akka.actor.{Scheduler, Actor}
 import java.util.concurrent.TimeUnit
-import sky.sns.statsotron.datacollector.jmx.{RetrieverLifecycle, CollectFrom, CollectionActor}
-import sky.sns.statsotron.output.DataPointOutput
+import statsotron.datacollector.jmx.{RetrieverLifecycle, CollectFrom, CollectionActor}
+import statsotron.output.DataPointOutput
 
 class CollectionScheduler(retrieverLifecycle: RetrieverLifecycle, dataPointOutput: DataPointOutput, delay: Long, timeUnit: TimeUnit) extends Actor {
 

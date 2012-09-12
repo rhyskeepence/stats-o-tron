@@ -1,11 +1,11 @@
-package sky.sns.statsotron
+package statsotron
 
 import akka.actor.Actor._
 import java.io.File
-import sky.sns.statsotron.datacollector.{Schedule, CollectionScheduler}
-import sky.sns.statsotron.datacollector.jmx.RetrieverLifecycle
+import statsotron.datacollector.{Schedule, CollectionScheduler}
+import statsotron.datacollector.jmx.RetrieverLifecycle
 import java.util.concurrent.TimeUnit
-import sky.sns.statsotron.output.DataPointOutput
+import statsotron.output.DataPointOutput
 
 class StatsOTron(xmlConfigDir: String, retrieverLifecycle: RetrieverLifecycle, dataPointOutput: DataPointOutput, delay: Long, timeunit: TimeUnit) {
 

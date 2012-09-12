@@ -1,4 +1,4 @@
-package sky.sns.statsotron.datacollector.jmx
+package statsotron.datacollector.jmx
 
 import org.noggin.config.xml.DataCollectorConfigReader
 import org.noggin.instrumentation.ConnectionDetails
@@ -21,7 +21,7 @@ class JmxRetrieverLifecycle(configReader: DataCollectorConfigReader, reconnectin
     val connectionManager = new DefaultJmxConnectionManager(new DefaultJmxConnectionFactory, reconnectingScheduler, minutes(5), connectionDetails)
     connectionManagers += connectionManager
 
-    val retrieverFactory = new RetrieverFactory(connectionManager)
+    val retrieverFactory = new RetrieverFactory(connectionManager, connectionDetails)
     retrieverConfigurations.map(retrieverFactory.createRetriever(_))
   }
 

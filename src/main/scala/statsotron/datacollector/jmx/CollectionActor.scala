@@ -1,8 +1,8 @@
-package sky.sns.statsotron.datacollector.jmx
+package statsotron.datacollector.jmx
 
 import akka.actor.Actor
 import org.noggin.instrumentation.retriever.Retriever
-import sky.sns.statsotron.output.DataPointOutput
+import statsotron.output.DataPointOutput
 
 class CollectionActor(dataPointOutput: DataPointOutput, collectionName: String) extends Actor {
   val dataCollector = new DataCollector(collectionName)

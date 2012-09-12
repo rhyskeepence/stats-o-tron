@@ -1,4 +1,4 @@
-package sky.sns.statsotron.config
+package statsotron.config
 
 import org.specs.SpecificationWithJUnit
 import scala.io.Source

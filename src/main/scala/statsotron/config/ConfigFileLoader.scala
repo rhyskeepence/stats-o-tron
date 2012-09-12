@@ -1,4 +1,4 @@
-package sky.sns.statsotron.config
+package statsotron.config
 
 import xml.{Elem, XML}
 import scala.io.Source

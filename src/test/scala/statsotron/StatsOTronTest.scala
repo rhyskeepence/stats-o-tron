@@ -1,16 +1,16 @@
-package sky.sns.statsotron
+package statsotron
 
 import org.specs.SpecificationWithJUnit
-import sky.sns.statsotron.datacollector.jmx.RetrieverLifecycle
+import statsotron.datacollector.jmx.RetrieverLifecycle
 import java.io.File
 import org.noggin.instrumentation.retriever.{RetrievedData, Retriever}
 import org.specs.mock.Mockito
 import java.util.concurrent.TimeUnit
-import sky.sns.statsotron.output.DataPointOutput
+import statsotron.output.DataPointOutput
 import org.specs.util.TimeConversions._
 import scala.collection.JavaConversions._
 import org.mockito.Matchers._
-import sky.sns.statsotron.model.{Metric, DataPoint}
+import statsotron.model.{Metric, DataPoint}
 
 class StatsOTronTest extends SpecificationWithJUnit with Mockito {
   val configurationFile = File.createTempFile("statsotron-sampleconfig", ".xml")
@@ -52,7 +52,7 @@ class StatsOTronTest extends SpecificationWithJUnit with Mockito {
   }
 
   def staticRetriever = {
-    List(new Retriever(null, null) {
+    List(new Retriever(null, null, null) {
       def retrieveData() = {
         val data = new RetrievedData("x-") {
           override def getTime = 123

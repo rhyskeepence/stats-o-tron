@@ -1,4 +1,4 @@
-package sky.sns.statsotron.datacollector.jmx
+package statsotron.datacollector.jmx
 
 import org.specs.SpecificationWithJUnit
 import org.noggin.instrumentation.retriever.{RetrievedData, Retriever}
@@ -33,7 +33,7 @@ class DataCollectorTest extends SpecificationWithJUnit {
   }
 
   def stubRetriever(timeInMillis: Long)(setupRetrievedData: RetrievedData => Unit) = {
-    new Retriever(null, null) {
+    new Retriever(null, null, null) {
       def retrieveData() = {
         val data = new RetrievedData(prefix) {
           override def getTime = timeInMillis

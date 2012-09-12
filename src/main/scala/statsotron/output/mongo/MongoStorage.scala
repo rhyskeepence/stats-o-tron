@@ -1,10 +1,8 @@
-package sky.sns.statsotron.output.mongo
+package statsotron.output.mongo
 
 import com.mongodb.casbah.{MongoCollection, MongoConnection}
 
-class MongoStorage {
-  private val host = "localhost"
-  private val port = 27017
+class MongoStorage(host: String, port: Int) {
   private val mongo = MongoConnection(host, port)
 
   def withCollection[T](collectionName: String)(actionOnCollection: MongoCollection => T) = {

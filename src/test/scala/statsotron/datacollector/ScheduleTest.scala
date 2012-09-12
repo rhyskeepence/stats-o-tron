@@ -1,4 +1,4 @@
-package sky.sns.statsotron.datacollector
+package statsotron.datacollector
 
 import org.specs.SpecificationWithJUnit
 import java.io.File

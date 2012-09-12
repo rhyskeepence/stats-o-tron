@@ -2,11 +2,13 @@ import AssemblyKeys._
 
 name := "stats-o-tron"
 
+version := System.getProperty("build.number", "DEV-BUILD")
+
 scalaVersion := "2.9.1"
 
 seq(assemblySettings: _*)
 
-mainClass in assembly := Some("sky.sns.statsotron.StatsOTronApp")
+mainClass in assembly := Some("statsotron.StatsOTronApp")
 
 resolvers ++= Seq(
   "Scala Tools Releases" at "http://scala-tools.org/repo-releases/",
@@ -16,7 +18,7 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.noggin" % "noggin" % "32",
+  "org.noggin" % "noggin" % "70",
   "com.mongodb.casbah" %% "casbah" % "2.1.5-1",
   "se.scalablesolutions.akka" % "akka-actor" % "1.2",
   "org.scala-tools.time" %% "time" % "0.5",

@@ -1,4 +1,4 @@
-package sky.sns.statsotron.model
+package statsotron.model
 
 case class DataPoint(timestamp: Long, environment: String, metrics: List[Metric])
 

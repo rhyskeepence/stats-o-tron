@@ -1,7 +1,7 @@
-package sky.sns.statsotron.output.mongo
+package statsotron.output.mongo
 
-import sky.sns.statsotron.output.DataPointOutput
-import sky.sns.statsotron.model.DataPoint
+import statsotron.output.DataPointOutput
+import statsotron.model.DataPoint
 import com.mongodb.casbah.MongoCollection
 import com.mongodb.casbah.commons.MongoDBObject
 import com.mongodb.casbah.query.Imports._
