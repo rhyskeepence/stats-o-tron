@@ -3,21 +3,16 @@ package statsotron.output.mongo
 import com.mongodb.casbah.{MongoCollection, MongoConnection}
 
 class MongoStorage(host: String, port: Int) {
-  private val mongo = MongoConnection(host, port)
-
   def withCollection[T](collectionName: String)(actionOnCollection: MongoCollection => T) = {
+    val mongo = MongoConnection(host, port)
     val snoggin = mongo("snoggin")
 
-    val collection = snoggin(collectionName)
-    actionOnCollection(collection)
-  }
+    try {
+      val collection = snoggin(collectionName)
+      actionOnCollection(collection)
 
-  def collectionNames = {
-    val mongo = MongoConnection(host, port)
-    mongo("snoggin").getCollectionNames()
-  }
-
-  def close() {
-    mongo.close()
+    } finally {
+      mongo.close()
+    }
   }
 }

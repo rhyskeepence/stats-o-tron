@@ -20,7 +20,7 @@ class StatsOTronTest extends SpecificationWithJUnit with Mockito {
   
   val retrieverLifecycle = mock[RetrieverLifecycle]
   val output = new StubDataPointOutput
-  val statsOtron = new StatsOTron(configurationPath, retrieverLifecycle, output, 50, TimeUnit.MILLISECONDS)
+  val statsOtron = new StatsOTron(configurationPath, retrieverLifecycle, output, 8011, 50, TimeUnit.MILLISECONDS)
 
   retrieverLifecycle.createRetrievers(anyObject[File]) returns staticRetriever
 
