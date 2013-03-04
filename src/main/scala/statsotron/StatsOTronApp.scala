@@ -4,31 +4,27 @@ import statsotron.datacollector.jmx.JmxRetrieverLifecycle
 import org.noggin.config.xml.DataCollectorConfigReader
 import java.util.concurrent.TimeUnit._
 import java.util.concurrent.{CountDownLatch, Executors}
-import statsotron.output.mongo.{MongoStorage, MongoDataPointOutput}
+import output.mongo.{MongoDataPointOutput, MongoStorage}
 
 object StatsOTronApp extends App {
 
-  val usage = "Usage: statsotron [mongo-host] [mongo-port] udp-listener-port path-to-xml-config-dir"
+  val usage = "Usage: statsotron mongo-host mongo-port [-listen udp-listener-port] [-poll path-to-xml-config-dir]\n" +
+    "\tEither -listen or -poll are required."
 
   args.toList match {
-    case port :: xmlConfigDir :: Nil =>
-      startStatsOTron("localhost", 27017, port.toInt, xmlConfigDir)
+    case mongoHost :: mongoPort :: "-poll" :: xmlConfigDir :: Nil =>
+      start(mongoHost, mongoPort.toInt, buildPoller(xmlConfigDir))
 
-    case mongoHost :: mongoPort :: port :: xmlConfigDir :: Nil =>
-      startStatsOTron(mongoHost, mongoPort.toInt, port.toInt, xmlConfigDir)
+    case mongoHost :: mongoPort :: "-listen" :: listenPort :: Nil =>
+      start(mongoHost, mongoPort.toInt, buildListener(listenPort.toInt))
 
     case _ =>
       println(usage)
   }
 
-  private def startStatsOTron(mongoHost: String, mongoPort: Int, listenerPort: Int, xmlConfigDir: String) {
-    val retrieverLifecycle = new JmxRetrieverLifecycle(
-      new DataCollectorConfigReader,
-      Executors.newSingleThreadScheduledExecutor)
+  def start(mongoHost: String, mongoPort: Int, buildCollector: MongoDataPointOutput => CollectorLifecycle) {
     val mongoStorage = new MongoStorage(mongoHost, mongoPort)
     val dataPointOutput = new MongoDataPointOutput(mongoStorage)
-
-    val statsOTron = new StatsOTron(xmlConfigDir, retrieverLifecycle, dataPointOutput, listenerPort, 10, SECONDS)
 
     val shutDownLatch = new CountDownLatch(1)
     sys.ShutdownHookThread {
@@ -36,9 +32,23 @@ object StatsOTronApp extends App {
       shutDownLatch.countDown()
     }
 
-    statsOTron.start()
+    val collector = buildCollector(dataPointOutput)
+
+    collector.start()
     shutDownLatch.await()
-    statsOTron.stop()
+    collector.stop()
+  }
+
+  private def buildPoller(xmlConfigDir: String): MongoDataPointOutput => CollectorLifecycle = dataPointOutput => {
+    val retrieverLifecycle = new JmxRetrieverLifecycle(
+      new DataCollectorConfigReader,
+      Executors.newSingleThreadScheduledExecutor)
+
+    new StatsOTron(xmlConfigDir, retrieverLifecycle, dataPointOutput, 10, SECONDS)
+  }
+
+  private def buildListener(listenerPort: Int): MongoDataPointOutput => CollectorLifecycle = dataPointOutput =>  {
+    new ListenOTron(dataPointOutput, listenerPort)
   }
 }
 

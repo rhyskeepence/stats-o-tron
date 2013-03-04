@@ -8,14 +8,12 @@ import statsotron.datacollector.jmx.RetrieverLifecycle
 import java.util.concurrent.TimeUnit
 import statsotron.output.DataPointOutput
 
-class StatsOTron(xmlConfigDir: String, retrieverLifecycle: RetrieverLifecycle, dataPointOutput: DataPointOutput, listenerPort: Int, delay: Long, timeunit: TimeUnit) {
+class StatsOTron(xmlConfigDir: String, retrieverLifecycle: RetrieverLifecycle, dataPointOutput: DataPointOutput, delay: Long, timeunit: TimeUnit) extends CollectorLifecycle {
 
   val collectionScheduler = actorOf(new CollectionScheduler(retrieverLifecycle, dataPointOutput, delay, timeunit))
-  val listener = actorOf(new UdpListener(dataPointOutput, listenerPort)).start()
 
   def start() {
     collectionScheduler.start()
-    listener ! Start
 
     val xmlFiles = new File(xmlConfigDir).listFiles().filter(_.getName.endsWith(".xml"))
     for (xmlConfigFile <- xmlFiles) {
@@ -25,7 +23,17 @@ class StatsOTron(xmlConfigDir: String, retrieverLifecycle: RetrieverLifecycle, d
   
   def stop() {
     collectionScheduler.stop()
-    listener ! Stop
+  }
+}
+
+class ListenOTron(dataPointOutput: DataPointOutput, listenerPort: Int) extends CollectorLifecycle {
+  val listener = actorOf(new UdpListener(dataPointOutput, listenerPort)).start()
+
+  def start() {
+    listener ! Start
   }
 
+  def stop() {
+    listener ! Stop
+  }
 }
