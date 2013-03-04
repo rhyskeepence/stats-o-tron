@@ -18,7 +18,7 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.noggin" % "noggin" % "70",
+  "org.noggin" % "noggin" % "118",
   "org.mongodb" %% "casbah" % "2.5.0",
   "se.scalablesolutions.akka" % "akka-actor" % "1.2",
   "org.scala-tools.time" %% "time" % "0.5",
